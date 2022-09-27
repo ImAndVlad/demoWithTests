@@ -2,13 +2,12 @@ package com.example.demowithtests.service;
 
 import com.example.demowithtests.domain.Employee;
 import com.example.demowithtests.repository.Repository;
-import com.example.demowithtests.util.ResourceNotFoundException;
-import com.example.demowithtests.util.ResourceWasDeletedException;
+import com.example.demowithtests.util.exception.ResourceWasDeletedException;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
 import javax.persistence.EntityNotFoundException;
-import java.util.*;
+import java.util.List;
 
 @AllArgsConstructor
 @Slf4j
@@ -29,7 +28,7 @@ public class ServiceBean implements Service {
 
     @Override
     public Employee getById(Integer id) {
-        Employee employee = repository.findById(id)
+        var employee = repository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException("Employee not found with id = " + id));
 //                .orElseThrow(ResourceNotFoundException::new);
          /*if (employee.getIsDeleted()) {
@@ -54,7 +53,7 @@ public class ServiceBean implements Service {
     public void removeById(Integer id) {
         //repository.deleteById(id);
         Employee employee = repository.findById(id)
-                // .orElseThrow(() -> new EntityNotFoundException("Employee not found with id = " + id));
+               // .orElseThrow(() -> new EntityNotFoundException("Employee not found with id = " + id));
                 .orElseThrow(ResourceWasDeletedException::new);
         //employee.setIsDeleted(true);
         repository.delete(employee);
@@ -66,77 +65,4 @@ public class ServiceBean implements Service {
         repository.deleteAll();
 
     }
-
-    @Override
-    public void isDeleted(Integer id) {
-        Employee employee = repository.findById(id)
-                .orElseThrow(ResourceWasDeletedException::new);
-        employee.setDeleted(true);
-        repository.save(employee);
-    }
-
-    // get list users where deleted = false
-    @Override
-    public List<Employee> getAllUsers() {
-        List<Employee> list = new ArrayList<>();
-        List<Employee> employee = repository.findAll();
-
-        for (Employee value : employee) {
-            if (!value.isDeleted()) {
-                list.add(value);
-            }
-        }
-
-        return list;
-    }
-
-    // №1 get employee by name
-    @Override
-    public List<Employee> getName(String name) {
-        return repository.getName(name);
-    }
-
-    // №2  get access
-    @Override
-    public List<Employee> isAccess(Integer id) {
-        repository.isAccess(id);
-        return repository.getIsAccess();
-    }
-
-    @Override
-    public List<Employee> getListCountry(String country) {
-        return repository.getListCountry(country);
-    }
-
-    @Override
-    public void updateEmail(Integer id, String email) {
-        repository.updateEmail(id, email);
-
-    }
-
-
-    //    // №3 get hour
-//    @Override
-//    public void updateHour(Integer id, Double hour) {
-//        repository.updateHour(id, hour);
-//    }
-//
-    // №4 get salary
-//    @Override
-//    public void getSalary(Integer id) {
-//        Employee employee = repository.findById(id)
-//                .orElseThrow(ResourceWasDeletedException::new);
-//
-//        double rate = 50;
-//
-//        // salary = hour * rate
-//        employee.setSalary(employee.getHour() * rate);
-//        repository.getSalary(id, employee.getSalary());
-//    }
-//
-//    // get list name and salary
-//    @Override
-//    public List<Object> salaryInfo() {
-//        return repository.listSalary();
-//    }
 }

@@ -2,6 +2,7 @@ package com.example.demowithtests;
 
 import com.example.demowithtests.domain.Employee;
 import com.example.demowithtests.repository.Repository;
+import com.example.demowithtests.service.Service;
 import com.example.demowithtests.service.ServiceBean;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -62,63 +63,5 @@ public class ServiceTests {
 
         given(repository.findById(anyInt())).willReturn(Optional.empty());
         service.getById(employee.getId());
-    }
-
-    // №1
-    @Test
-    public void whenGivenName_shouldReturnList_ifFound() {
-        Employee employee = new Employee();
-        employee.setName("Mark");
-
-        service.getName(employee.getName());
-
-        verify(repository).getName(employee.getName());
-    }
-
-    // №2
-    @Test
-    public void whenAccess() {
-        Employee employee = new Employee();
-        employee.setId(7);
-
-        service.isAccess(employee.getId());
-
-        verify(repository).isAccess(employee.getId());
-    }
-
-    // №3
-    @Test
-    public void whenListAccess() {
-        Employee employee = new Employee();
-        employee.setId(7);
-
-        service.isAccess(employee.getId());
-
-        verify(repository).getIsAccess();
-    }
-
-    // №4
-    @Test
-    public void whenDeleted() {
-        Employee employee = new Employee();
-        employee.setId(7);
-
-        when(repository.findById(employee.getId())).thenReturn(Optional.of(employee));
-
-        service.isDeleted(employee.getId());
-
-        verify(repository).save(employee);
-    }
-
-    // №5
-    @Test
-    public void whenGivenCountry_shouldReturnList_ifFound() {
-        Employee employee = new Employee();
-        employee.setName("Nick");
-        employee.setCountry("Ukraine");
-
-        service.getListCountry(employee.getCountry());
-
-        verify(repository).getListCountry(employee.getCountry());
     }
 }
