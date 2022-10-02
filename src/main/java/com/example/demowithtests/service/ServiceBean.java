@@ -2,11 +2,19 @@ package com.example.demowithtests.service;
 
 import com.example.demowithtests.domain.Employee;
 import com.example.demowithtests.repository.Repository;
+import com.example.demowithtests.util.DateMapper;
+import com.example.demowithtests.util.SortList;
 import com.example.demowithtests.util.exception.ResourceWasDeletedException;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 
 import javax.persistence.EntityNotFoundException;
+import java.time.Instant;
+import java.util.Date;
 import java.util.List;
 
 @AllArgsConstructor
@@ -15,6 +23,8 @@ import java.util.List;
 public class ServiceBean implements Service {
 
     private final Repository repository;
+    private final DateMapper dateMapper;
+    private final SortList sort;
 
     @Override
     public Employee create(Employee employee) {
@@ -65,4 +75,29 @@ public class ServiceBean implements Service {
         repository.deleteAll();
 
     }
+
+    @Override
+    public String getDate() {
+        return dateMapper.asString(Date.from(Instant.now()));
+    }
+
+    @Override
+    public Page<Employee> findByCountry(String country, Pageable pageable) {
+        return repository.findByCountry(country, pageable);
+    }
+
+    @Override
+    public Page<Employee> findByNameString(String name, int page, int size, List<String> sortList, String sortOrder) {
+        Pageable pageable = PageRequest.of(page, size, Sort.by(sort.createSortOrder(sortList, sortOrder)));
+        // fetch the page object by additionally passing pageable with the filters
+        return repository.findByName(name, pageable);
+    }
+
+    @Override
+    public Page<Employee> findByEmail(String email, int page, int size, List<String> sortList, String sortOrder) {
+        Pageable pageable = PageRequest.of(page, size, Sort.by(sort.createSortOrder(sortList, sortOrder)));
+
+        return repository.findByEmail(email, pageable);
+    }
+
 }

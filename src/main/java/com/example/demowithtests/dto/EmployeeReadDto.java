@@ -1,13 +1,14 @@
 package com.example.demowithtests.dto;
 
 import io.swagger.v3.oas.annotations.media.Schema;
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
-import java.time.Instant;
-import java.util.Date;
 
 @Data
 @AllArgsConstructor
@@ -27,5 +28,5 @@ public class EmployeeReadDto {
     public String email;
 
     //todo: dfhgjkdfhg Jira - 5544
-    public Date date = Date.from(Instant.now());
+    public String date;
 }
