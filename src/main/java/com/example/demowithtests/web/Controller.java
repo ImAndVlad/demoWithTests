@@ -2,6 +2,7 @@ package com.example.demowithtests.web;
 
 import com.example.demowithtests.domain.Employee;
 import com.example.demowithtests.dto.EmployeeDto;
+import com.example.demowithtests.dto.EmployeeEmailDto;
 import com.example.demowithtests.dto.EmployeeReadDto;
 import com.example.demowithtests.mapper.Mapper;
 import com.example.demowithtests.service.Service;
@@ -22,6 +23,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @AllArgsConstructor
@@ -136,5 +138,27 @@ public class Controller implements FindByEmailController {
         return service.findByEmail(email, page, size, sortList, sortOrder.toString());
     }
 
+    @GetMapping("/users/c")
+    @ResponseStatus(HttpStatus.OK)
+    public List<String> getCountry() {
+        return service.findCountry();
+    }
 
+    @GetMapping("/users/e")
+    @ResponseStatus(HttpStatus.OK)
+    public List<String> getEmail() {
+        return service.getByEmail();
+    }
+
+    @GetMapping("/users/d")
+    @ResponseStatus(HttpStatus.OK)
+    public List<EmployeeEmailDto> getEmailDto() {
+        return service.findByDto();
+    }
+
+    @GetMapping("/users/n")
+    @ResponseStatus(HttpStatus.OK)
+    public Optional<String> getName() {
+        return service.getName();
+    }
 }

@@ -1,6 +1,7 @@
 package com.example.demowithtests.service;
 
 import com.example.demowithtests.domain.Employee;
+import com.example.demowithtests.dto.EmployeeEmailDto;
 import com.example.demowithtests.repository.Repository;
 import com.example.demowithtests.util.DateMapper;
 import com.example.demowithtests.util.SortList;
@@ -14,8 +15,11 @@ import org.springframework.data.domain.Sort;
 
 import javax.persistence.EntityNotFoundException;
 import java.time.Instant;
+import java.util.Comparator;
 import java.util.Date;
 import java.util.List;
+import java.util.Optional;
+import java.util.stream.Collectors;
 
 @AllArgsConstructor
 @Slf4j
@@ -100,4 +104,50 @@ public class ServiceBean implements Service {
         return repository.findByEmail(email, pageable);
     }
 
+    @Override
+    public List<String> findCountry() {
+        List<Employee> employeeList = repository.findAll();
+
+        return employeeList.stream()
+                .map(Employee::getCountry)
+                .filter(c -> c.startsWith("U"))
+                .sorted(Comparator.naturalOrder())
+                .collect(Collectors.toList());
+    }
+
+    @Override
+    public List<String> getByEmail() {
+        List<Employee> employeesList = repository.findAll();
+
+        return employeesList.stream()
+                .map(Employee::getEmail)
+                .filter(c -> c.endsWith(".com"))
+                .sorted(Comparator.naturalOrder())
+                .collect(Collectors.toList());
+    }
+
+    @Override
+    public List<EmployeeEmailDto> findByDto() {
+        List<Employee> employeesList = repository.findAll();
+
+        return employeesList.stream()
+                .map(c -> new EmployeeEmailDto(c.getName(), c.getEmail(), getDate()))
+                .collect(Collectors.toList());
+    }
+
+    @Override
+    public Optional<String> getName() {
+        var employeeList = repository.findAll();
+
+        var employeeName = employeeList.stream()
+                .map(Employee::getName)
+                .collect(Collectors.toList());
+
+        var opt = employeeName.stream()
+                .filter(c -> c.startsWith("Mr"))
+                .findFirst()
+                .orElseThrow();
+
+        return Optional.of(opt);
+    }
 }
