@@ -1,14 +1,25 @@
 package com.example.demowithtests.service;
 
 import com.example.demowithtests.domain.Employee;
+import com.example.demowithtests.dto.EmployeeEmailDto;
 import com.example.demowithtests.repository.Repository;
-import com.example.demowithtests.util.ResourceNotFoundException;
-import com.example.demowithtests.util.ResourceWasDeletedException;
+import com.example.demowithtests.util.DateMapper;
+import com.example.demowithtests.util.SortList;
+import com.example.demowithtests.util.exception.ResourceWasDeletedException;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 
 import javax.persistence.EntityNotFoundException;
-import java.util.*;
+import java.time.Instant;
+import java.util.Comparator;
+import java.util.Date;
+import java.util.List;
+import java.util.Optional;
+import java.util.stream.Collectors;
 
 @AllArgsConstructor
 @Slf4j
@@ -16,6 +27,8 @@ import java.util.*;
 public class ServiceBean implements Service {
 
     private final Repository repository;
+    private final DateMapper dateMapper;
+    private final SortList sort;
 
     @Override
     public Employee create(Employee employee) {
@@ -29,7 +42,7 @@ public class ServiceBean implements Service {
 
     @Override
     public Employee getById(Integer id) {
-        Employee employee = repository.findById(id)
+        var employee = repository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException("Employee not found with id = " + id));
 //                .orElseThrow(ResourceNotFoundException::new);
          /*if (employee.getIsDeleted()) {
@@ -54,7 +67,7 @@ public class ServiceBean implements Service {
     public void removeById(Integer id) {
         //repository.deleteById(id);
         Employee employee = repository.findById(id)
-                // .orElseThrow(() -> new EntityNotFoundException("Employee not found with id = " + id));
+               // .orElseThrow(() -> new EntityNotFoundException("Employee not found with id = " + id));
                 .orElseThrow(ResourceWasDeletedException::new);
         //employee.setIsDeleted(true);
         repository.delete(employee);
@@ -68,75 +81,73 @@ public class ServiceBean implements Service {
     }
 
     @Override
-    public void isDeleted(Integer id) {
-        Employee employee = repository.findById(id)
-                .orElseThrow(ResourceWasDeletedException::new);
-        employee.setDeleted(true);
-        repository.save(employee);
-    }
-
-    // get list users where deleted = false
-    @Override
-    public List<Employee> getAllUsers() {
-        List<Employee> list = new ArrayList<>();
-        List<Employee> employee = repository.findAll();
-
-        for (Employee value : employee) {
-            if (!value.isDeleted()) {
-                list.add(value);
-            }
-        }
-
-        return list;
-    }
-
-    // №1 get employee by name
-    @Override
-    public List<Employee> getName(String name) {
-        return repository.getName(name);
-    }
-
-    // №2  get access
-    @Override
-    public List<Employee> isAccess(Integer id) {
-        repository.isAccess(id);
-        return repository.getIsAccess();
+    public String getDate() {
+        return dateMapper.asString(Date.from(Instant.now()));
     }
 
     @Override
-    public List<Employee> getListCountry(String country) {
-        return repository.getListCountry(country);
+    public Page<Employee> findByCountry(String country, Pageable pageable) {
+        return repository.findByCountry(country, pageable);
     }
 
     @Override
-    public void updateEmail(Integer id, String email) {
-        repository.updateEmail(id, email);
-
+    public Page<Employee> findByNameString(String name, int page, int size, List<String> sortList, String sortOrder) {
+        Pageable pageable = PageRequest.of(page, size, Sort.by(sort.createSortOrder(sortList, sortOrder)));
+        // fetch the page object by additionally passing pageable with the filters
+        return repository.findByName(name, pageable);
     }
 
+    @Override
+    public Page<Employee> findByEmail(String email, int page, int size, List<String> sortList, String sortOrder) {
+        Pageable pageable = PageRequest.of(page, size, Sort.by(sort.createSortOrder(sortList, sortOrder)));
 
-    //    // №3 get hour
-//    @Override
-//    public void updateHour(Integer id, Double hour) {
-//        repository.updateHour(id, hour);
-//    }
-//
-    // №4 get salary
-//    @Override
-//    public void getSalary(Integer id) {
-//        Employee employee = repository.findById(id)
-//                .orElseThrow(ResourceWasDeletedException::new);
-//
-//        double rate = 50;
-//
-//        // salary = hour * rate
-//        employee.setSalary(employee.getHour() * rate);
-//        repository.getSalary(id, employee.getSalary());
-//    }
-//
-//    // get list name and salary
-//    @Override
-//    public List<Object> salaryInfo() {
-//        return repository.listSalary();
-//    }
+        return repository.findByEmail(email, pageable);
+    }
+
+    @Override
+    public List<String> findCountry() {
+        List<Employee> employeeList = repository.findAll();
+
+        return employeeList.stream()
+                .map(Employee::getCountry)
+                .filter(c -> c.startsWith("U"))
+                .sorted(Comparator.naturalOrder())
+                .collect(Collectors.toList());
+    }
+
+    @Override
+    public List<String> getByEmail() {
+        List<Employee> employeesList = repository.findAll();
+
+        return employeesList.stream()
+                .map(Employee::getEmail)
+                .filter(c -> c.endsWith(".com"))
+                .sorted(Comparator.naturalOrder())
+                .collect(Collectors.toList());
+    }
+
+    @Override
+    public List<EmployeeEmailDto> findByDto() {
+        List<Employee> employeesList = repository.findAll();
+
+        return employeesList.stream()
+                .map(c -> new EmployeeEmailDto(c.getName(), c.getEmail(), getDate()))
+                .collect(Collectors.toList());
+    }
+
+    @Override
+    public Optional<String> getName() {
+        var employeeList = repository.findAll();
+
+        var employeeName = employeeList.stream()
+                .map(Employee::getName)
+                .collect(Collectors.toList());
+
+        var opt = employeeName.stream()
+                .filter(c -> c.startsWith("Mr"))
+                .findFirst()
+                .orElseThrow();
+
+        return Optional.of(opt);
+    }
 }

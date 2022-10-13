@@ -20,10 +20,6 @@ public class Employee {
     private String name;
     private String country;
     private String email;
-    private boolean deleted;
-    private boolean access;
-//    private double hour;
-//    private Double salary;
 
     public Integer getId() {
         return id;
@@ -56,38 +52,4 @@ public class Employee {
     public void setEmail(String email) {
         this.email = email;
     }
-
-    public boolean isDeleted() {
-        return deleted;
-    }
-
-    public void setDeleted(boolean deleted) {
-        this.deleted = deleted;
-    }
-
-    public boolean isAccess() {
-        return access;
-    }
-
-    public void setAccess(boolean access) {
-        this.access = access;
-    }
-
-//    public double getHour() {
-//        return hour;
-//    }
-//
-//    public void setHour(double hour) {
-//        this.hour = hour;
-//    }
-
-//
-//    public Double getSalary() {
-//        return salary;
-//    }
-//
-//    public void setSalary(Double salary) {
-//        this.salary = salary;
-//    }
-
 }
