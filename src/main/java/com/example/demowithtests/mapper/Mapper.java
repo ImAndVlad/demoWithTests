@@ -9,6 +9,8 @@ public interface Mapper {
 
     Employee saveFromDto(EmployeeDto employeeDto);
 
+    EmployeeDto toDto(Employee employee);
+
     EmployeeReadDto readDto(Employee employee);
 
 

@@ -2,11 +2,9 @@ package com.example.demowithtests.web;
 
 import com.example.demowithtests.domain.Employee;
 import com.example.demowithtests.dto.EmployeeDto;
-import com.example.demowithtests.dto.EmployeeEmailDto;
 import com.example.demowithtests.dto.EmployeeReadDto;
 import com.example.demowithtests.mapper.Mapper;
 import com.example.demowithtests.service.Service;
-import com.example.demowithtests.util.SortList;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
@@ -23,7 +21,6 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.util.List;
-import java.util.Optional;
 
 @RestController
 @AllArgsConstructor
@@ -34,7 +31,7 @@ public class Controller implements FindByEmailController {
 
     private final Service service;
     private final Mapper mapper;
-    private final SortList sort;
+
 
     //Операция сохранения юзера в базу данных
     @PostMapping("/users")
@@ -45,13 +42,13 @@ public class Controller implements FindByEmailController {
             @ApiResponse(responseCode = "400", description = "Invalid input"),
             @ApiResponse(responseCode = "404", description = "NOT FOUND. Specified employee request not found."),
             @ApiResponse(responseCode = "409", description = "Employee already exists")})
-    public Employee saveEmployee(@RequestBody @Valid EmployeeDto requestForSave) {
+    public EmployeeDto saveEmployee(@RequestBody @Valid EmployeeDto requestForSave) {
         log.debug("saveEmployee() Controller - start");
         var employee = mapper.saveFromDto(requestForSave);
         log.debug("saveFromDto() Controller - to dto - start");
-        service.create(employee);
+        var dto = mapper.toDto(service.create(employee));
         log.debug("saveEmployee() Controller - end");
-        return employee;
+        return dto;
     }
 
     //Получение списка юзеров
@@ -138,27 +135,9 @@ public class Controller implements FindByEmailController {
         return service.findByEmail(email, page, size, sortList, sortOrder.toString());
     }
 
-    @GetMapping("/users/c")
-    @ResponseStatus(HttpStatus.OK)
-    public List<String> getCountry() {
-        return service.findCountry();
-    }
-
     @GetMapping("/users/e")
     @ResponseStatus(HttpStatus.OK)
     public List<String> getEmail() {
         return service.getByEmail();
-    }
-
-    @GetMapping("/users/d")
-    @ResponseStatus(HttpStatus.OK)
-    public List<EmployeeEmailDto> getEmailDto() {
-        return service.findByDto();
-    }
-
-    @GetMapping("/users/n")
-    @ResponseStatus(HttpStatus.OK)
-    public Optional<String> getName() {
-        return service.getName();
     }
 }

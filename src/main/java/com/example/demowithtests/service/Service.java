@@ -1,12 +1,10 @@
 package com.example.demowithtests.service;
 
 import com.example.demowithtests.domain.Employee;
-import com.example.demowithtests.dto.EmployeeEmailDto;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
 import java.util.List;
-import java.util.Optional;
 
 public interface Service {
 
@@ -52,8 +50,5 @@ public interface Service {
      */
     Page<Employee> findByEmail(String email, int page, int size, List<String> sortList, String sortOrder);
 
-    List<String> findCountry();
     List<String> getByEmail();
-    List<EmployeeEmailDto> findByDto();
-    Optional<String> getName();
 }

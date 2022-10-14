@@ -9,7 +9,7 @@ import java.util.Date;
 @Component
 public class DateMapper {
 
-    public String asString(Date date) {
+    public static String asString(Date date) {
         return date != null ? new SimpleDateFormat( "yyyy-MM-dd" )
                 .format( date ) : null;
     }
