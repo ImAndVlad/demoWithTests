@@ -48,7 +48,7 @@ public interface Service {
      * @param sortOrder The sort order, either "asc" or "desc".
      * @return A Page<Employee> object.
      */
-    Page<Employee> findByEmail(String email, int page, int size, List<String> sortList, String sortOrder);
+//    Page<Employee> findByEmail(String email, int page, int size, List<String> sortList, String sortOrder);
 
-    List<String> getByEmail();
+//    List<String> getByEmail();
 }

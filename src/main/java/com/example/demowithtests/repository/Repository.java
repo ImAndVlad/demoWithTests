@@ -19,7 +19,7 @@ public interface Repository extends JpaRepository<Employee, Integer> {
     Page<Employee> findByName(String name, Pageable pageable);
 
     // get pagination of email(Finds any values that end with ".com")
-    @Query("select e from Employee e where e.email like %?1")
-    Page<Employee> findByEmail(String email, Pageable pageable);
+//    @Query("select e from Employee e where e.email like %?1")
+//    Page<Employee> findByEmail(String email, Pageable pageable);
 
 }

@@ -6,7 +6,6 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import javax.validation.constraints.Email;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.util.HashSet;
@@ -28,10 +27,7 @@ public class EmployeeDto {
     @Schema(description = "Name of the country.", example = "England", required = true)
     public String country;
 
-    @Email
-    @NotNull
-    @Schema(description = "Email address of an employee.", example = "billys@mail.com", required = true)
-    public String email;
+    public EmailDto email;
 
     public Set<AddressDto> addresses = new HashSet<>();
 }

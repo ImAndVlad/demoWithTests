@@ -27,7 +27,7 @@ import java.util.List;
 @RequestMapping(value = "/api", produces = MediaType.APPLICATION_JSON_VALUE)
 @Slf4j
 @Tag(name = "Employee", description = "Employee API")
-public class Controller implements FindByEmailController {
+public class Controller {
 
     private final Service service;
     private final Mapper mapper;
@@ -130,14 +130,14 @@ public class Controller implements FindByEmailController {
     }
 
     // get pagination of email(Finds any values that end with ".com")
-    @Override
-    public Page<Employee> findByEmail(String email, int page, int size, List<String> sortList, Sort.Direction sortOrder) {
-        return service.findByEmail(email, page, size, sortList, sortOrder.toString());
-    }
+//    @Override
+//    public Page<Employee> findByEmail(String email, int page, int size, List<String> sortList, Sort.Direction sortOrder) {
+//        return service.findByEmail(email, page, size, sortList, sortOrder.toString());
+//    }
 
-    @GetMapping("/users/e")
-    @ResponseStatus(HttpStatus.OK)
-    public List<String> getEmail() {
-        return service.getByEmail();
-    }
+//    @GetMapping("/users/e")
+//    @ResponseStatus(HttpStatus.OK)
+//    public List<String> getEmail() {
+//        return service.getByEmail();
+//    }
 }

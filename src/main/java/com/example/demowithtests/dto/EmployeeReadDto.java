@@ -6,7 +6,6 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import javax.validation.constraints.Email;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.util.HashSet;
@@ -25,11 +24,9 @@ public class EmployeeReadDto {
 
     public String country;
 
-    @Email
-    @NotNull
-    public String email;
-
     public String date;
+
+    public EmailDto email;
 
     public Set<AddressDto> addresses = new HashSet<>();
 }

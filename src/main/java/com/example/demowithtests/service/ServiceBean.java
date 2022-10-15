@@ -14,10 +14,8 @@ import org.springframework.data.domain.Sort;
 
 import javax.persistence.EntityNotFoundException;
 import java.time.Instant;
-import java.util.Comparator;
 import java.util.Date;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @AllArgsConstructor
 @Slf4j
@@ -53,7 +51,7 @@ public class ServiceBean implements Service {
         return repository.findById(id)
                 .map(entity -> {
                     entity.setName(employee.getName());
-                    entity.setEmail(employee.getEmail());
+//                    entity.setEmail(employee.getEmail());
                     entity.setCountry(employee.getCountry());
                     return repository.save(entity);
                 })
@@ -94,22 +92,22 @@ public class ServiceBean implements Service {
         return repository.findByName(name, pageable);
     }
 
-    @Override
-    public Page<Employee> findByEmail(String email, int page, int size, List<String> sortList, String sortOrder) {
-        Pageable pageable = PageRequest.of(page, size, Sort.by(sort.createSortOrder(sortList, sortOrder)));
+//    @Override
+//    public Page<Employee> findByEmail(String email, int page, int size, List<String> sortList, String sortOrder) {
+//        Pageable pageable = PageRequest.of(page, size, Sort.by(sort.createSortOrder(sortList, sortOrder)));
+//
+//        return repository.findByEmail(email, pageable);
+//    }
 
-        return repository.findByEmail(email, pageable);
-    }
-
-    @Override
-    public List<String> getByEmail() {
-        List<Employee> employeesList = repository.findAll();
-
-        return employeesList.stream()
-                .map(Employee::getEmail)
-                .filter(c -> c.endsWith(".com"))
-                .sorted(Comparator.naturalOrder())
-                .collect(Collectors.toList());
-    }
+//    @Override
+//    public List<String> getByEmail() {
+//        List<Employee> employeesList = repository.findAll();
+//
+//        return employeesList.stream()
+//                .map(Employee::getEmail)
+//                .filter(c -> c.endsWith(".com"))
+//                .sorted(Comparator.naturalOrder())
+//                .collect(Collectors.toList());
+//    }
 
 }
