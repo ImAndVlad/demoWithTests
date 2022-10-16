@@ -20,8 +20,8 @@ public class Employee {
     private Integer id;
 
     private String name;
-    private String country;
-//    private String email;
+
+    private String surname;
 
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "email_id")

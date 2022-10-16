@@ -2,7 +2,6 @@ package com.example.demowithtests.service;
 
 import com.example.demowithtests.domain.Employee;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
 
 import java.util.List;
 
@@ -22,7 +21,7 @@ public interface Service {
 
     String getDate();
 
-    Page<Employee> findByCountry(String country, Pageable pageable);
+//    Page<Employee> findByCountry(String country, Pageable pageable);
 
     /**
      * It returns a page of employees with the given name.

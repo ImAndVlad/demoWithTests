@@ -12,8 +12,8 @@ public interface Repository extends JpaRepository<Employee, Integer> {
 
     Employee findByName(String name);
 
-    @Query("select e from Employee e where e.country = ?1")
-    Page<Employee> findByCountry(String country, Pageable pageable);
+//    @Query("select e from Employee e where e.country = ?1")
+//    Page<Employee> findByCountry(String country, Pageable pageable);
 
     @Query("select e from Employee e where e.name = ?1")
     Page<Employee> findByName(String name, Pageable pageable);

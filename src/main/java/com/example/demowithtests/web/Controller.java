@@ -12,8 +12,6 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -100,22 +98,22 @@ public class Controller {
     }
 
     // get pagination of country
-    @GetMapping("/users/country")
-    @ResponseStatus(HttpStatus.OK)
-    @Operation(summary = "This is endpoint returned a list employees by country(pagination).",
-            description = "Create request to read a list employees by country", tags = {"Employee"})
-    @ApiResponses(value = {
-            @ApiResponse(responseCode = "201", description = "OK. pam pam param."),
-            @ApiResponse(responseCode = "400", description = "Invalid input"),
-            @ApiResponse(responseCode = "404", description = "NOT FOUND. Specified employee request not found."),
-            @ApiResponse(responseCode = "409", description = "Employee already exists")})
-    public Page<Employee> findByCountry(@RequestParam(required = false) String country,
-                                        @RequestParam(defaultValue = "0") int page,
-                                        @RequestParam(defaultValue = "3") int size) {
-        Pageable paging = PageRequest.of(page, size, Sort.by("id").ascending());
-
-        return service.findByCountry(country, paging);
-    }
+//    @GetMapping("/users/country")
+//    @ResponseStatus(HttpStatus.OK)
+//    @Operation(summary = "This is endpoint returned a list employees by country(pagination).",
+//            description = "Create request to read a list employees by country", tags = {"Employee"})
+//    @ApiResponses(value = {
+//            @ApiResponse(responseCode = "201", description = "OK. pam pam param."),
+//            @ApiResponse(responseCode = "400", description = "Invalid input"),
+//            @ApiResponse(responseCode = "404", description = "NOT FOUND. Specified employee request not found."),
+//            @ApiResponse(responseCode = "409", description = "Employee already exists")})
+//    public Page<Employee> findByCountry(@RequestParam(required = false) String country,
+//                                        @RequestParam(defaultValue = "0") int page,
+//                                        @RequestParam(defaultValue = "3") int size) {
+//        Pageable paging = PageRequest.of(page, size, Sort.by("id").ascending());
+//
+//        return service.findByCountry(country, paging);
+//    }
 
     // get pagination of name
     @GetMapping("/users/name")

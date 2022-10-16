@@ -26,8 +26,9 @@ public class RepositoryTests {
     @Rollback(value = false)
     public void saveEmployeeTest() {
 
-        Employee employee = Employee.builder().name("Mark").country("England").build();
+//        Employee employee = Employee.builder().name("Mark").country("England").build();
 
+        Employee employee = Employee.builder().name("Mark").build();
         repository.save(employee);
 
         Assertions.assertThat(employee.getId()).isGreaterThan(0);

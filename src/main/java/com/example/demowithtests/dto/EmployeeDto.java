@@ -24,8 +24,10 @@ public class EmployeeDto {
     @Schema(description = "Name of an employee.", example = "Billy", required = true)
     public String name;
 
-    @Schema(description = "Name of the country.", example = "England", required = true)
-    public String country;
+    @NotNull(message = "Name may not be null")
+    @Size(min = 2, max = 32, message = "Name must be between 2 and 32 characters long")
+    @Schema(description = "Surname of an employee.", example = "Parker", required = true)
+    public String surname;
 
     public EmailDto email;
 

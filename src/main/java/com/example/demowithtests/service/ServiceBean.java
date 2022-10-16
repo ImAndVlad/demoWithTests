@@ -51,8 +51,9 @@ public class ServiceBean implements Service {
         return repository.findById(id)
                 .map(entity -> {
                     entity.setName(employee.getName());
-//                    entity.setEmail(employee.getEmail());
-                    entity.setCountry(employee.getCountry());
+                    entity.setSurname(employee.getSurname());
+                    entity.setEmail(employee.getEmail());
+                    entity.setAddresses(employee.getAddresses());
                     return repository.save(entity);
                 })
                 .orElseThrow(() -> new EntityNotFoundException("Employee not found with id = " + id));
@@ -80,10 +81,10 @@ public class ServiceBean implements Service {
         return DateMapper.asString(Date.from(Instant.now()));
     }
 
-    @Override
-    public Page<Employee> findByCountry(String country, Pageable pageable) {
-        return repository.findByCountry(country, pageable);
-    }
+//    @Override
+//    public Page<Employee> findByCountry(String country, Pageable pageable) {
+//        return repository.findByCountry(country, pageable);
+//    }
 
     @Override
     public Page<Employee> findByNameString(String name, int page, int size, List<String> sortList, String sortOrder) {
