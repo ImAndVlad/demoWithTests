@@ -32,4 +32,6 @@ public class EmployeeReadDto {
     public EmailDto email;
 
     public Set<AddressDto> addresses = new HashSet<>();
+
+    public Set<NetworkReadDto> networks = new HashSet<>();
 }

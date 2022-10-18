@@ -31,4 +31,11 @@ public class Employee {
     @JoinColumn(name = "employee_id")
     private Set<Address> addresses = new HashSet<>();
 
+    @ManyToMany
+    @JoinTable(name = "users_networks",
+    joinColumns = @JoinColumn(name = "employee_id"),
+    inverseJoinColumns = @JoinColumn(name = "network_id")
+    )
+    private Set<Network> networks = new HashSet<>();
+
 }

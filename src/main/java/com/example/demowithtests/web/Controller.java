@@ -138,4 +138,15 @@ public class Controller {
 //    public List<String> getEmail() {
 //        return service.getByEmail();
 //    }
+
+    @PutMapping("/users/{empId}/network/{netId}")
+    @ResponseStatus(HttpStatus.OK)
+    public EmployeeReadDto addNetworkToEmployee(
+            @PathVariable Integer empId,
+            @PathVariable Integer netId
+    ) {
+        var dto = mapper.readDto(service.networkToEmployee(empId, netId));
+        dto.date = service.getDate();
+        return dto;
+    }
 }

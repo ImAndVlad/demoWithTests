@@ -21,6 +21,8 @@ public interface Service {
 
     String getDate();
 
+    Employee networkToEmployee(Integer empId, Integer netId);
+
 //    Page<Employee> findByCountry(String country, Pageable pageable);
 
     /**

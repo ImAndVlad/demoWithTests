@@ -1,6 +1,8 @@
 package com.example.demowithtests.service;
 
 import com.example.demowithtests.domain.Employee;
+import com.example.demowithtests.domain.Network;
+import com.example.demowithtests.repository.NetworkRepository;
 import com.example.demowithtests.repository.Repository;
 import com.example.demowithtests.util.DateMapper;
 import com.example.demowithtests.util.SortList;
@@ -16,6 +18,7 @@ import javax.persistence.EntityNotFoundException;
 import java.time.Instant;
 import java.util.Date;
 import java.util.List;
+import java.util.Set;
 
 @AllArgsConstructor
 @Slf4j
@@ -23,6 +26,7 @@ import java.util.List;
 public class ServiceBean implements Service {
 
     private final Repository repository;
+    private final NetworkRepository networkRepository;
     private final SortList sort;
 
     @Override
@@ -111,4 +115,17 @@ public class ServiceBean implements Service {
 //                .collect(Collectors.toList());
 //    }
 
+
+    @Override
+    public Employee networkToEmployee(Integer empId, Integer netId) {
+        Set<Network> networkSet = null;
+        var employee = repository.findById(empId).get();
+        var network = networkRepository.findById(netId).get();
+
+        networkSet = employee.getNetworks();
+        networkSet.add(network);
+        employee.setNetworks(networkSet);
+
+        return repository.save(employee);
+    }
 }
