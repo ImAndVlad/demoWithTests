@@ -1,4 +1,4 @@
-package com.example.demowithtests.util;
+/*package com.example.demowithtests.util.security;
 
 import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
@@ -40,3 +40,4 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .formLogin().disable();
     }
 }
+*/

@@ -15,6 +15,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -34,6 +35,7 @@ public class Controller {
     //Операция сохранения юзера в базу данных
     @PostMapping("/users")
     @ResponseStatus(HttpStatus.CREATED)
+    @PreAuthorize("hasAuthority('delevopers:write')")
     @Operation(summary = "This is endpoint to add a new employee.", description = "Create request to add a new employee.", tags = {"Employee"})
     @ApiResponses(value = {
             @ApiResponse(responseCode = "201", description = "CREATED. The new employee is successfully created and added to database."),
@@ -52,6 +54,7 @@ public class Controller {
     //Получение списка юзеров
     @GetMapping("/users")
     @ResponseStatus(HttpStatus.OK)
+    @PreAuthorize("hasAuthority('delevopers:read')")
     public List<Employee> getAllUsers() {
         return service.getAll();
     }
@@ -59,6 +62,7 @@ public class Controller {
     //Получения юзера по id
     @GetMapping("/users/{id}")
     @ResponseStatus(HttpStatus.OK)
+    @PreAuthorize("hasAuthority('delevopers:read')")
     @Operation(summary = "This is endpoint returned a employee by his id.", description = "Create request to read a employee by id", tags = {"Employee"})
     @ApiResponses(value = {
             @ApiResponse(responseCode = "201", description = "OK. pam pam param."),
@@ -78,6 +82,7 @@ public class Controller {
     //Обновление юзера
     @PutMapping("/users/{id}")
     @ResponseStatus(HttpStatus.OK)
+    @PreAuthorize("hasAuthority('delevopers:write')")
     public Employee refreshEmployee(@PathVariable("id") Integer id, @RequestBody Employee employee) {
 
         return service.updateById(id, employee);
@@ -86,6 +91,7 @@ public class Controller {
     //Удаление по id
     @PatchMapping("/users/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
+    @PreAuthorize("hasAuthority('delevopers:write')")
     public void removeEmployeeById(@PathVariable Integer id) {
         service.removeById(id);
     }
@@ -93,6 +99,7 @@ public class Controller {
     //Удаление всех юзеров
     @DeleteMapping("/users")
     @ResponseStatus(HttpStatus.NO_CONTENT)
+    @PreAuthorize("hasAuthority('delevopers:write')")
     public void removeAllUsers() {
         service.removeAll();
     }

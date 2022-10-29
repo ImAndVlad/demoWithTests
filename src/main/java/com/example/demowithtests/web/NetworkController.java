@@ -4,7 +4,7 @@ import com.example.demowithtests.domain.Network;
 import com.example.demowithtests.dto.NetworkDto;
 import com.example.demowithtests.dto.NetworkReadDto;
 import com.example.demowithtests.mapper.Mapper;
-import com.example.demowithtests.service.NetworkService.NetworkService;
+import com.example.demowithtests.service.networkService.NetworkService;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

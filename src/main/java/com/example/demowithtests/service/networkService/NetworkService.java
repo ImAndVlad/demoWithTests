@@ -1,4 +1,4 @@
-package com.example.demowithtests.service.NetworkService;
+package com.example.demowithtests.service.networkService;
 
 import com.example.demowithtests.domain.Network;
 
